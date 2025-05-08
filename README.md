@@ -1,6 +1,6 @@
-# <PostgreSQL>
+<h3> PostgreSQL </h3>
 
-## <Qompass AI psql setup> 
+<h2> Qompass AI psql setup </h2> 
 
 <p align="center">
   <a href="https://www.gnu.org/licenses/agpl-3.0">
@@ -9,69 +9,13 @@
     <img src="https://img.shields.io/badge/license-Q--CDA-lightgrey.svg" alt="License: Q-CDA">
   </a>
 </p>
-<!-- zenodo-metadata
-{
-  "title": "qtemplate",
-  "description": "A software project at the intersection of AI, Quantum, and Healthcare.",
-  "license": ["AGPL-3.0", "Q-CDA-1.0"],
-  "language": "eng",
-  "upload_type": "software",
-  "access_right": "open",
-  "creators": [
-    {
-      "name": "Porter, Matthew A.",
-      "affiliation": "Qompass AI",
-      "orcid": "https://orcid.org/0000-0002-0302-4812"
-    }
-  ],
-  "keywords": [
-    "AI",
-    "Quantum",
-    "Post-Quantum Cryptography",
-    "Healthcare",
-    "Medical Education",
-    "Post-Quantum AI"
-  ],
-  "communities": [
-    {"identifier": "qompassai"}
-  ],
-  "contributors": [
-    {
-      "name": "Qompass AI",
-      "type": "Sponsor"
-    }
-  ]
-}
--->
-
----
-
-## 📄 Cite this Repository
-
-If you use this project, please cite it as:
-
-> Matthew A. Porter (2025). **<reponame>**. Zenodo. [https://doi.org/10.5281/zenodo.XXXXX](https://doi.org/10.5281/zenodo.XXXXX)
-
-Or in BibTeX format:
-
-```bibtex
-@software{porter_<reponame>_2025,
-  author       = {Matthew A. Porter},
-  title        = {<reponame>},
-  year         = {2025},
-  publisher    = {Zenodo},
-  version      = {v${RELEASE_DATE}},
-  doi          = {10.5281/zenodo.XXXXX},
-  url          = {https://doi.org/10.5281/zenodo.XXXXX}
-}
-
 
 <details id="Contact">
   <summary><strong>Contact Qompass AI</strong></summary>
 
  <div align="center">
-  <p>Matthew A. Porter<sup>1</sup><br>
-  <sup>1</sup>Qompass AI, Spokane, WA</p>
+  <p>Matthew A. Porter<br>
+  Qompass AI, Spokane, WA</p>
 
   <a href="mailto:&#109;&#97;&#112;&#64;&#113;&#111;&#109;&#112;&#97;&#115;&#115;&#46;&#97;&#105;">
   <img src="https://img.shields.io/badge/Email-Get_a_Quote-blue?style=flat-square&logo=gmail" alt="Email Me">
@@ -104,6 +48,17 @@ Or in BibTeX format:
       <img src="https://img.shields.io/badge/LinkedIn-Qompass--AI-blue?style=flat-square&logo=linkedin" alt="Startup LinkedIn">
     </a>
   </p>
+
+  <h3 align="center">Developer Programs</h3>
+<div align="center">
+ 
+[![NVIDIA Developer](https://img.shields.io/badge/NVIDIA-Developer_Program-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://developer.nvidia.com/)
+[![Meta Developer](https://img.shields.io/badge/Meta-Developer_Program-0668E1?style=for-the-badge&logo=meta&logoColor=white)](https://developers.facebook.com/)
+[![HackerOne](https://img.shields.io/badge/-HackerOne-%23494649?style=for-the-badge&logo=hackerone&logoColor=white)](https://hackerone.com/phaedrusflow)
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-qompass-yellow?style=flat-square&logo=huggingface)](https://huggingface.co/qompass)
+[![Epic Games Developer](https://img.shields.io/badge/Epic_Games-Developer_Program-313131?style=for-the-badge&logo=epic-games&logoColor=white)](https://dev.epicgames.com/)
+</div>
+</details>
   
   <h3>Social Media</h3>
   <p>
@@ -154,16 +109,7 @@ Or in BibTeX format:
 <p><i>Funding helps us continue our research at the intersection of AI, healthcare, and education</i></p>
 </div>
 
-<h3 align="center">Developer Programs</h3>
-<div align="center">
- 
-[![NVIDIA Developer](https://img.shields.io/badge/NVIDIA-Developer_Program-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://developer.nvidia.com/)
-[![Meta Developer](https://img.shields.io/badge/Meta-Developer_Program-0668E1?style=for-the-badge&logo=meta&logoColor=white)](https://developers.facebook.com/)
-[![HackerOne](https://img.shields.io/badge/-HackerOne-%23494649?style=for-the-badge&logo=hackerone&logoColor=white)](https://hackerone.com/phaedrusflow)
-[![HuggingFace](https://img.shields.io/badge/HuggingFace-qompass-yellow?style=flat-square&logo=huggingface)](https://huggingface.co/qompass)
-[![Epic Games Developer](https://img.shields.io/badge/Epic_Games-Developer_Program-313131?style=for-the-badge&logo=epic-games&logoColor=white)](https://dev.epicgames.com/)
-</div>
-</details>
+
 
 <details id="FAQ">
   <summary><strong>Frequently Asked Questions</strong></summary>
