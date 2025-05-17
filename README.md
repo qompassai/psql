@@ -1,14 +1,27 @@
+<!-- /qompassai/psql/README.md -->
+<!-- ---------------------------- -->
+<!-- Copyright (C) 2025 Qompass AI, All rights reserved -->
+
 <h3> PostgreSQL </h3>
 
-<h2> Qompass AI psql setup </h2> 
+<h2> Qompass AI on PostGres </h2> 
 
-<p align="center">
-  <a href="https://www.gnu.org/licenses/agpl-3.0">
-    <img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License: AGPL v3">
-  <a href="./LICENSE-QCDA">
-    <img src="https://img.shields.io/badge/license-Q--CDA-lightgrey.svg" alt="License: Q-CDA">
-  </a>
+![Repository Views](https://komarev.com/ghpvc/?username=qompassai-psql)
+<a href="https://www.postgresql.org/">
+  <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+</a>
+<br>
+<a href="https://www.postgresql.org/docs/">
+  <img src="https://img.shields.io/badge/PostgreSQL_Documentation-blue?style=flat-square" alt="PostgreSQL Documentation">
+</a>
+<a href="https://github.com/topics/postgresql-tutorial">
+  <img src="https://img.shields.io/badge/PostgreSQL_Tutorials-green?style=flat-square" alt="PostgreSQL Tutorials">
+</a>
+<br>
+  <a href="https://www.gnu.org/licenses/agpl-3.0"><img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License: AGPL v3"></a>
+  <a href="./LICENSE-QCDA"><img src="https://img.shields.io/badge/license-Q--CDA-lightgrey.svg" alt="License: Q-CDA"></a>
 </p>
+
 
 <details id="Contact">
   <summary><strong>Contact Qompass AI</strong></summary>
