@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "psql"
+title: "Qompass AI on PostGres"
 message: "If you use this software, please cite it as below."
 authors:
   - family-names: "Porter"
@@ -17,6 +17,6 @@ keywords:
   - Post-Quantum Cryptography
   - Quantum
   - data science
-  - machine learning
-  - python
-abstract: "Qompass AI psql"
+  - postgresql
+  - postgres
+abstract: "Qompass AI on Postgres"
