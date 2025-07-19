@@ -3,16 +3,28 @@
 # Qompass AI PostgreSQL (Cross-Platform) Quick Start
 # Copyright (C) 2025 Qompass AI
 ####################################################
+
 set -euo pipefail
+
+PORT=5432
+DATA_DIR="$HOME/.local/share/qompass/harbor"
+PG_LOG="$HOME/.local/share/qompass/pg.log"
+DB_NAME="qompass"
+DBX_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/nvim/dbx.lua"
+DB_ENTRY_NAME="Qompass AI Harbor"
+
+mkdir -p "$(dirname "$DBX_FILE")"
+mkdir -p "$HOME/.local/share/qompass"
+
 detect_os() {
-	unameOut="$(uname -s)"
-	case "${unameOut}" in
+	case "$(uname -s)" in
 	Linux*) OS="linux" ;;
 	Darwin*) OS="macos" ;;
 	CYGWIN* | MINGW* | MSYS* | Windows*) OS="windows" ;;
 	*) OS="unknown" ;;
 	esac
 }
+
 detect_linux_distro() {
 	if [ -f /etc/os-release ]; then
 		. /etc/os-release
@@ -23,113 +35,122 @@ detect_linux_distro() {
 		DISTRO_LIKE=""
 	fi
 }
+
 is_postgres_installed() {
-	if command -v psql &>/dev/null; then
+	if command -v psql >/dev/null; then
 		echo "✅ PostgreSQL is already installed: $(psql --version)"
 		return 0
 	fi
 	return 1
 }
+
 install_postgresql_linux() {
-	echo "==> Installing PostgreSQL for distribution: $DISTRO_ID"
+	echo "==> Installing PostgreSQL for: $DISTRO_ID"
 	case "$DISTRO_ID" in
 	debian | ubuntu | linuxmint | pop)
-		sudo apt-get update
-		sudo apt-get install -y postgresql postgresql-contrib
-		;;
-	fedora | rhel | centos)
-		sudo dnf install -y postgresql-server postgresql-contrib
-		sudo postgresql-setup --initdb --unit postgresql
-		sudo systemctl enable postgresql
-		sudo systemctl start postgresql
+		sudo apt update
+		sudo apt install -y postgresql postgresql-contrib
 		;;
 	arch | manjaro)
 		sudo pacman -Sy --noconfirm postgresql
-		sudo -iu postgres initdb --locale en_US.UTF-8 -D '/var/lib/postgres/data'
-		sudo systemctl enable postgresql
-		sudo systemctl start postgresql
+		;;
+	fedora | rhel | centos)
+		sudo dnf install -y postgresql-server postgresql-contrib
 		;;
 	nixos)
-		echo "❗ On NixOS, use configuration.nix or $(nix-shell) to manage system services."
-		echo "For example:"
-		echo '  services.postgresql.enable = true;'
-		echo "Or:"
-		echo "  nix-shell -p postgresql"
+		echo "❗ On NixOS, use configuration.nix or nix-shell to enable PostgreSQL."
 		;;
 	*)
-		if [[ "$DISTRO_LIKE" == *"debian"* ]]; then
-			sudo apt-get update
-			sudo apt-get install -y postgresql postgresql-contrib
-		elif [[ "$DISTRO_LIKE" == *"fedora"* ]] || [[ "$DISTRO_LIKE" == *"rhel"* ]]; then
-			sudo dnf install -y postgresql-server postgresql-contrib
-			sudo postgresql-setup --initdb --unit postgresql
-			sudo systemctl enable postgresql
-			sudo systemctl start postgresql
-		else
-			echo "❌ Unsupported Linux distribution. Please install PostgreSQL manually."
-			exit 1
-		fi
+		echo "❌ Unsupported Linux distro. Please install PostgreSQL manually."
+		exit 1
 		;;
 	esac
 }
+
 install_postgresql_macos() {
 	echo "==> Installing PostgreSQL on macOS..."
-	if ! command -v brew &>/dev/null; then
-		echo "Homebrew not found. Installing Homebrew..."
+	if ! command -v brew >/dev/null; then
+		echo "Installing Homebrew..."
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	fi
-	brew update
 	brew install postgresql
 	brew services start postgresql
 }
+
 install_postgresql_windows() {
-	if grep -qi microsoft /proc/version 2>/dev/null; then
-		DISTRO_ID="debian"
-		install_postgresql_linux
-		return
-	fi
 	echo "ℹ️ Native Windows install is not automated."
-	echo "Please use the official PostgreSQL installer:"
-	echo "https://www.postgresql.org/download/windows/"
-	echo
-	echo "After installation, reopen your terminal and run:"
-	echo "  psql -U postgres"
-	exit 0
+	echo "Get the installer from: https://www.postgresql.org/download/windows/"
+	exit 1
 }
-setup_postgres_user() {
-	echo "==> Setting up 'postgres' user (if necessary)..."
-	if sudo -u postgres psql -c '\q' 2>/dev/null; then
-		echo "✅ PostgreSQL is initialized."
-	else
-		echo "⚠ Creating default 'postgres' user and DB..."
-		sudo -u postgres createuser -s postgres || true
-		sudo -u postgres createdb postgres || true
+
+setup_user_cluster() {
+	if [ ! -d "$DATA_DIR/base" ]; then
+		echo "==> Initializing user-local PostgreSQL cluster in $DATA_DIR"
+		initdb -D "$DATA_DIR"
 	fi
 
-	echo
-	echo "🎯 You can now connect to PostgreSQL with:"
-	echo "    sudo -u postgres psql"
+	if ! pg_ctl -D "$DATA_DIR" -l "$PG_LOG" status >/dev/null 2>&1; then
+		echo "==> Starting PostgreSQL server..."
+		pg_ctl -D "$DATA_DIR" -l "$PG_LOG" start
+		sleep 2
+	else
+		echo "ℹ️ PostgreSQL server already running."
+	fi
+
+	if ! psql -h localhost -p "$PORT" -lqt | cut -d \| -f 1 | grep -qw "$DB_NAME"; then
+		echo "✅ Creating database: $DB_NAME"
+		createdb -h localhost -p "$PORT" "$DB_NAME"
+	else
+		echo "ℹ️ Database '$DB_NAME' already exists."
+	fi
 }
+
+write_dbx_file() {
+	echo "==> Writing database entry to: $DBX_FILE"
+
+	cat >"$DBX_FILE" <<EOF
+-- Qompass AI Diver Database Config
+-- Auto-generated by quickstart.sh
+return {
+  {
+    name = "${DB_ENTRY_NAME}",
+    url = "postgresql://$USER@localhost:${PORT}/${DB_NAME}"
+  }
+}
+EOF
+
+	echo "✅ DBX file updated: $DBX_FILE"
+}
+
 main() {
 	detect_os
-	echo "🔍 Detected OS: $OS"
-	if is_postgres_installed; then
-		echo "ℹ️ Skipping install since PostgreSQL is already available."
-		exit 0
+	echo "🔍 OS detected: $OS"
+
+	if ! is_postgres_installed; then
+		echo "==> PostgreSQL not detected, installing..."
+		if [ "$OS" = "linux" ]; then
+			detect_linux_distro
+			install_postgresql_linux
+		elif [ "$OS" = "macos" ]; then
+			install_postgresql_macos
+		elif [ "$OS" = "windows" ]; then
+			install_postgresql_windows
+		else
+			echo "❌ Unsupported OS: $OS"
+			exit 1
+		fi
 	fi
-	if [ "$OS" = "linux" ]; then
-		detect_linux_distro
-		install_postgresql_linux
-		setup_postgres_user
-	elif [ "$OS" = "macos" ]; then
-		install_postgresql_macos
-	elif [ "$OS" = "windows" ]; then
-		install_postgresql_windows
-	else
-		echo "❌ Unsupported or unknown system: $OS"
-		exit 1
-	fi
+
+	setup_user_cluster
+	write_dbx_file
+
 	echo
-	echo "🍀 PostgreSQL installation complete!"
+	echo "🚀 Your local PostgreSQL instance is ready."
+	echo "📡 Connection URL:"
+	echo "   postgresql://$USER@localhost:$PORT/$DB_NAME"
+	echo
+	echo "🧠 Use this in Neovim DBUI or CLI:"
+	echo "   psql -h localhost -p $PORT -U $USER -d $DB_NAME"
 }
+
 main "$@"
