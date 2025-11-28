@@ -1,0 +1,8 @@
+# ~/.config/postfix-psql/relayhost_maps
+# -------------------------------------
+# Copyright (C) 2025 Qompass AI, All rights reserved
+
+foamedmap@gmail.com [smtp.gmail.com]:587
+map26@gmail.com [smtp.gmail.com]:587
+map@qompass.ai [smtp.qompass.ai]:587
+

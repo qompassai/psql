@@ -1,0 +1,30 @@
+---
+- name: Create PostgreSQL user and database
+  hosts: localhost
+  become: yes
+  become_user: postgres
+  vars:
+    postgres_password: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"  # Can be passed as an extra-vars or defined as environment variable
+    username: "{{ lookup('env', 'USER') }}"  # The current user from the environment
+    database_name: "harbor"  # Database name
+    password: "your_password_here"  # The password for the user
+
+  tasks:
+    - name: Ensure PostgreSQL user exists
+      community.postgresql.postgresql_user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        db: postgres
+        login_user: postgres
+        login_password: "{{ postgres_password }}"
+        role_attr_flags: SUPERUSER
+        state: present
+
+    - name: Create database for harbor
+      community.postgresql.postgresql_db:
+        name: "{{ database_name }}"
+        owner: "{{ username }}"
+        login_user: postgres
+        login_password: "{{ postgres_password }}"
+        state: present
+
